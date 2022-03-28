@@ -24,7 +24,7 @@ jobs:
     - name: docker login
 
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
         
     - name: Build the Docker image
       run: docker build . --file ./ui/Dockerfile --tag $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER

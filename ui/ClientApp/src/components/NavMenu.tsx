@@ -6,7 +6,7 @@ import './NavMenu.css';
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
 
-  constructor (props) {
+  constructor (props:any) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);

@@ -14,7 +14,7 @@ RUN ls
 RUN dotnet restore ui/ui.csproj
 RUN dotnet publish ui/ui.csproj -o /app/out --no-self-contained
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15-arm64v8
 WORKDIR /app
 
 RUN apk add --update nodejs

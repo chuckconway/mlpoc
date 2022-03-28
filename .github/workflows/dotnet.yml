@@ -13,13 +13,40 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore ui/ui.csproj
-    - name: Build
-      run: dotnet build ui/ui.csproj --no-restore
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_TOKEN}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag $DOCKER_USER/mlpoc:GITHUB_RUN_NUMBER
+      
+    - name: Docker Push
+      run: docker push $DOCKER_USER/mlpoc:GITHUB_RUN_NUMBER
+      
+#     - name: Build Docker Image
+#       id: buildAndPushImage
+#       uses: abhishek-070/docker-image-build-push-action@v1.0
+#       with:
+#         registry_url: 'docker.io'
+#         repository_name: 'demo-app'
+#         user_name: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKERHUB_TOKEN }}
+#         image_version: 'v${{GITHUB_RUN_NUMBER}}'
+#         docker_file: '.'
+#     - name: Get pre step result output image_pull_url
+#       run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+      
+      
+#     - uses: actions/checkout@v2
+#     - name: Setup .NET
+#       uses: actions/setup-dotnet@v1
+#       with:
+#         dotnet-version: 6.0.x
+#     - name: Restore dependencies
+#       run: dotnet restore ui/ui.csproj
+#     - name: Build
+#       run: dotnet build ui/ui.csproj --no-restore
 #     - name: Test
 #       run: dotnet test --no-build --verbosity normal

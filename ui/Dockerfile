@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 as build-env
-
 WORKDIR /app
 
 RUN apt-get update
@@ -12,5 +11,13 @@ RUN apt-get install -y nodejs
 COPY . ./
 
 RUN dotnet restore ui.csproj
+RUN dotnet publish ui.csproj -o /app/out --no-self-contained
 
-RUN dotnet publish ui.csproj -o out --no-self-contained
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15-amd64
+WORKDIR /app
+
+RUN apk add --update nodejs
+RUN apk add --update npm
+
+COPY --from=build-env /app/out .
+ENTRYPOINT [ "dotnet", "/app/ui.dll" ]

@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 export class FetchData extends Component {
   static displayName = FetchData.name;
 
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
-    let state: any = {forecasts : [], loading: true};
+    let state: { forecasts:[], loading: boolean } = {forecasts : [], loading: true};
 
     this.state = state;
   }
@@ -40,8 +40,11 @@ export class FetchData extends Component {
   }
 
   render() {
+    // @ts-ignore
+
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
+        // @ts-ignore
       : FetchData.renderForecastsTable(this.state.forecasts);
 
     return (

@@ -8,16 +8,18 @@ RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -y nodejs
 
 # Copy everything and publish the release (publish implicitly restores and builds)
-COPY . ./
+COPY . ./app
 
-RUN dotnet restore ui.csproj
-RUN dotnet publish ui.csproj -o /app/out --no-self-contained
+RUN dotnet restore ./app/ui.csproj
+RUN dotnet publish ./app/ui.csproj -o /app/out --no-self-contained
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15-arm64v8
 WORKDIR /app
 
 RUN apk add --update nodejs
 RUN apk add --update npm
+
+EXPOSE 80
 
 COPY --from=build-env /app/out .
 ENTRYPOINT [ "dotnet", "/app/ui.dll" ]

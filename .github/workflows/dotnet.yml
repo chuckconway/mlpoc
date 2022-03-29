@@ -17,20 +17,24 @@ jobs:
 
     steps:
     
-#       - name: Create SSH key
-#         run: |
-#           install -m 600 -D /dev/null ~/.ssh/id_rsa
-#           echo "${{ secrets.SSH_KEY_RSA }}" > ~/.ssh/id_rsa
-#           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Create SSH key
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY_RSA }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          
+      - name: SSH
+        run: |
+            ssh
     
-      - name: executing remote ssh commands using ssh key
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-            whoami
-          host: ${{ secrets.DOCKER_1_ADDRESS }}
-          user: ${{ secrets.DOCKER_1_USERNAME }}
-          key: ${{ secrets.SSH_KEY_RSA}}
+#       - name: executing remote ssh commands using ssh key
+#         uses: fifsky/ssh-action@master
+#         with:
+#           command: |
+#             whoami
+#           host: ${{ secrets.DOCKER_1_ADDRESS }}
+#           user: ${{ secrets.DOCKER_1_USERNAME }}
+#           key: ${{ secrets.SSH_KEY_RSA}}
     
     
 #       uses: appleboy/ssh-action@master

@@ -25,7 +25,9 @@ jobs:
           
       - name: SSH
         run: |
-            ssh
+            ssh ${{ secrets.DOCKER_1_ADDRESS }}
+            whoami
+            ~.
     
 #       - name: executing remote ssh commands using ssh key
 #         uses: fifsky/ssh-action@master

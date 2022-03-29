@@ -1,4 +1,4 @@
-name: MLPOC Dockerize and Deploy
+name: MLPOC Dockerize and Deploy 
 
 on:
   push:

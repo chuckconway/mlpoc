@@ -40,7 +40,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            whoami
+            docker ps
           host: ${{ secrets.DOCKER_1_ADDRESS }}
           user: ${{ secrets.DOCKER_1_USERNAME }}
           key: ${{ secrets.SSH_KEY}}

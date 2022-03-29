@@ -43,7 +43,7 @@ jobs:
             whoami
           host: ${{ secrets.DOCKER_1_ADDRESS }}
           user: ${{ secrets.DOCKER_1_USERNAME }}
-          key: ${{ secrets.SSH_KEY_RSA}}
+          key: ${{ secrets.SSH_KEY}}
     
     
 #       uses: appleboy/ssh-action@master

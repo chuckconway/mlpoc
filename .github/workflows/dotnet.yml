@@ -38,8 +38,8 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            ls
-            node dockerDeploy.js $DOCKER_USER $DOCKER_PASSWORD $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER mlpoc 9100:80
+            sleep 2
+            node dockerDeploy.js $DOCKER_USER $DOCKER_PASSWORD $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER mlpoc 9200:80
           host: ${{ secrets.DOCKER_1_ADDRESS }}
           user: ${{ secrets.DOCKER_1_USERNAME }}
           key: ${{ secrets.SSH_KEY}}

@@ -16,22 +16,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
     
-    - name: Working Directory
-      run: echo pwd
-    
-    - name: docker login
-
-      run: |
-        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DOCKER_1_ADDRESS }}
+        username: ${{ secrets.DOCKER_1_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.DOCKER_1_SSH_PORT }}
+        script: whoami
         
-    - name: Build the Docker image
-      run: docker build . --file ./ui/Dockerfile --tag $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
+        
+    #     - uses: actions/checkout@v2
+    
+#     - name: Working Directory
+#       run: echo pwd
+    
+#     - name: docker login
+
+#       run: |
+#         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+        
+#     - name: Build the Docker image
+#       run: docker build . --file ./ui/Dockerfile --tag $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
       
-    - name: Docker Push
-      run: docker push $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
-      
+#     - name: Docker Push
+#       run: docker push $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
+
+
+
+
+
 #     - name: Build Docker Image
 #       id: buildAndPushImage
 #       uses: abhishek-070/docker-image-build-push-action@v1.0

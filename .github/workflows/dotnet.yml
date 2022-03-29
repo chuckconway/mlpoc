@@ -39,7 +39,7 @@ jobs:
         with:
           command: |
             sleep 2
-            node dockerDeploy.js $DOCKER_USER $DOCKER_PASSWORD $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER mlpoc 9200:80
+            node dockerDeploy.js ${{secrets.DOCKER_USER}} ${{secrets.DOCKER_TOKEN}} ${{secrets.DOCKER_USER}}/mlpoc:$GITHUB_RUN_NUMBER mlpoc 9200:80
           host: ${{ secrets.DOCKER_1_ADDRESS }}
           user: ${{ secrets.DOCKER_1_USERNAME }}
           key: ${{ secrets.SSH_KEY}}

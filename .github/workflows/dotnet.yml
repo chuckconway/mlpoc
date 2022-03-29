@@ -15,47 +15,35 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    steps:
-    
+    steps:    
       - uses: actions/checkout@v2
 
-      - name: Working Directory
-        run: echo pwd
-
+      # connect to docker
       - name: docker login
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 
+      # build the docker image
       - name: Build the Docker image
         run: docker build . --file ./ui/Dockerfile --tag $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
 
-      - name: Docker Push
+      
+      - name: Docker image to docker hub
         run: docker push $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
     
-#       - name: Create SSH key
-#         run: |
-#           mkdir -p ~/.ssh/
-#           echo "$SSH_KEY" > ~/.ssh/staging.key
-#           chmod 600 ~/.ssh/staging.key
-#           cat >>~/.ssh/config <<END
-#           Host staging
-#             HostName $SSH_HOST
-#             User $SSH_USER
-#             IdentityFile ~/.ssh/staging.key
-#             StrictHostKeyChecking no
-#           END
-          
-#       - name: SSH
-#         run: ssh staging 'whoami'
-    
-      - name: executing remote ssh commands using ssh key3d
+     
+      - name: stop current instance and get new instance
         uses: fifsky/ssh-action@master
         with:
           command: |
-            docker ps
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+            docker pull $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
+            docker stop mlpoc
+            docker rm mlpoc
+            docker run -d -p 9100:80 --name mlpoc $DOCKER_USER/mlpoc:$GITHUB_RUN_NUMBER
+            docker logout
           host: ${{ secrets.DOCKER_1_ADDRESS }}
           user: ${{ secrets.DOCKER_1_USERNAME }}
           key: ${{ secrets.SSH_KEY}}

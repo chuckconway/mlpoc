@@ -9,6 +9,9 @@ on:
 env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_TOKEN}}
+  SSH_HOST: ${{ secrets.DOCKER_1_ADDRESS }}
+  SSH_USER: ${{ secrets.DOCKER_1_USERNAME }}
+  SSH_KEY: ${{ secrets.SSH_KEY_RSA }}
 
 jobs:
   build:
@@ -19,15 +22,19 @@ jobs:
     
       - name: Create SSH key
         run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KEY_RSA }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
           
       - name: SSH
-        run: |
-            ssh ${{ secrets.DOCKER_1_ADDRESS }}
-            whoami
-            ~.
+        run: ssh staging whoami
     
 #       - name: executing remote ssh commands using ssh key
 #         uses: fifsky/ssh-action@master

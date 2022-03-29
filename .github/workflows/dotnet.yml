@@ -34,7 +34,7 @@ jobs:
           END
           
       - name: SSH
-        run: ssh staging whoami
+        run: ssh staging 'whoami'
     
 #       - name: executing remote ssh commands using ssh key
 #         uses: fifsky/ssh-action@master

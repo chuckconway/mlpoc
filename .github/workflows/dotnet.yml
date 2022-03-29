@@ -20,30 +20,30 @@ jobs:
 
     steps:
     
-      - name: Create SSH key
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/staging.key
-          chmod 600 ~/.ssh/staging.key
-          cat >>~/.ssh/config <<END
-          Host staging
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/staging.key
-            StrictHostKeyChecking no
-          END
+#       - name: Create SSH key
+#         run: |
+#           mkdir -p ~/.ssh/
+#           echo "$SSH_KEY" > ~/.ssh/staging.key
+#           chmod 600 ~/.ssh/staging.key
+#           cat >>~/.ssh/config <<END
+#           Host staging
+#             HostName $SSH_HOST
+#             User $SSH_USER
+#             IdentityFile ~/.ssh/staging.key
+#             StrictHostKeyChecking no
+#           END
           
-      - name: SSH
-        run: ssh staging 'whoami'
+#       - name: SSH
+#         run: ssh staging 'whoami'
     
-#       - name: executing remote ssh commands using ssh key
-#         uses: fifsky/ssh-action@master
-#         with:
-#           command: |
-#             whoami
-#           host: ${{ secrets.DOCKER_1_ADDRESS }}
-#           user: ${{ secrets.DOCKER_1_USERNAME }}
-#           key: ${{ secrets.SSH_KEY_RSA}}
+      - name: executing remote ssh commands using ssh key
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            whoami
+          host: ${{ secrets.DOCKER_1_ADDRESS }}
+          user: ${{ secrets.DOCKER_1_USERNAME }}
+          key: ${{ secrets.SSH_KEY_RSA}}
     
     
 #       uses: appleboy/ssh-action@master

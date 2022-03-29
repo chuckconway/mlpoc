@@ -36,7 +36,7 @@ jobs:
 #       - name: SSH
 #         run: ssh staging 'whoami'
     
-      - name: executing remote ssh commands using ssh key3
+      - name: executing remote ssh commands using ssh key3d
         uses: fifsky/ssh-action@master
         with:
           command: |

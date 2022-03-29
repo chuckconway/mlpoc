@@ -10,7 +10,8 @@ env:
   DOCKER_USER: ${{secrets.DOCKER_USER}}
   DOCKER_PASSWORD: ${{secrets.DOCKER_TOKEN}}
   SSH_HOST: ${{ secrets.DOCKER_1_ADDRESS }}
-  SSH_USER: ${{ secrets.DOCKER_1_USERNAME }}
+  #SSH_USER: ${{ secrets.DOCKER_1_USERNAME }}
+  SSH_USER: 'root@docker-1'
   SSH_KEY: ${{ secrets.SSH_KEY }}
 
 jobs:

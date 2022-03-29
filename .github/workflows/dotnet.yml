@@ -1,4 +1,4 @@
-name: .NET
+name: MLPOC Dockerize and Deploy
 
 on:
   push:
